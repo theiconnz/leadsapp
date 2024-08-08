@@ -67,7 +67,7 @@ Leads is built with followings software packages
 
 > ### Testing
 > 
-> Specific testing is not available at this staging, <br>
+> Specific testing is not available at this stage, <br>
 > Laravel basic tests for fortify is already available <br>
 > Need to create below tests
 > 
