@@ -108,10 +108,6 @@ Class LeadsController extends Controller
                     'referral' => $request->input('referral')
                 ];
                 LeadsEncryptionModel::create($dataLead);
-                var_dump($request->route()->defaults);
-                return Inertia::render(
-                    $request->route()->defaults
-                );
             }
         } catch (Exception $e) {
             return "Bad error";
