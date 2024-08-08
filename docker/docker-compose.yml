@@ -1,0 +1,113 @@
+services:
+  webcatch:
+    build:
+      context: docker/apache
+      args:
+        PROJECT_DOMAIN: ${PROJECT_DOMAIN}
+        PROJECT_ROOT: ${PROJECT_ROOT}
+    depends_on:
+      - phpcatch
+      - mysqlcatch
+    ports:
+      - ${PORT_NGINX}:80
+    volumes:
+      - ${PROJECT_PATH}:/var/www/project:cached
+      - ./var/data/httpd/logs:/usr/local/apache2/logs
+    links:
+      - phpcatch
+    networks:
+      - catch
+
+  phpcatch:
+    build:
+      context: docker/php82
+      args:
+        USER_ID: ${USER_ID}
+        PHP_TIMEZONE: ${PHP_TIMEZONE}
+    links:
+      - mysqlcatch
+    volumes:
+      - ${PROJECT_PATH}:/var/www/project
+      - ./var/data/php/workspace:/var/www/workspace
+      - /var/run/docker.sock:/var/run/docker.sock
+
+    environment:
+      HISTFILE: /var/www/workspace/.bash_history
+      PROMPT_COMMAND: history -a
+      XDEBUG_CONFIG: remote_host=host.docker.internal
+    depends_on:
+      - mysqlcatch
+    env_file: .env
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    networks:
+      - catch
+
+
+  phpmyadmincatch:
+    image: phpmyadmin/phpmyadmin
+    restart: always
+    ports:
+      - '${PORT_PHPMYADMIN}:80'
+    depends_on:
+      - mysqlcatch
+    environment:
+      PMA_HOST: mysqlcatch
+    networks:
+      - catch
+
+
+  mysqlcatch:
+      image: ${MYSQL_IMAGE}
+      container_name: mysql-catchstore-80
+      restart: always
+      command: --max_allowed_packet=75005856
+      environment:
+        - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
+        - MYSQL_DATABASE=${MYSQL_DATABASE}
+      volumes:
+        - ${PROJECT_SQL_DB}:/var/lib/mysql
+        - ${PROJECT_SQL_PATH}:/docker-entrypoint-initdb.d
+      ports:
+        - '${PORT_MYSQL}:3306'
+      networks:
+        - catch
+
+  memcachecatch:
+    container_name: memcachedlv81
+    image: memcached:latest
+    ports:
+      - "11211:11211"
+    entrypoint: memcached -m 256
+    networks:
+      - catch
+
+  selenium-hub:
+    image: selenium/hub:latest
+    container_name: selenium-hub
+    ports:
+      - "4442:4442"
+      - "4443:4443"
+      - "4444:4444"
+    networks:
+      - catch
+
+  rediscatch:
+    image: redis:7.4.0
+    container_name: rediscatch
+    command: redis-server --save 60 1 --loglevel warning
+    ports:
+      - 6379:6379
+    volumes:
+      - "./var/redis-cache:/data"
+    networks:
+      - catch
+
+volumes:
+  opensearch-data1:
+  opensearch-data2:
+
+networks:
+  catch:
+    name: catchstore
+    external: true
