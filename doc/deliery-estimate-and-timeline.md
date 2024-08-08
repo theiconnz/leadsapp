@@ -44,11 +44,11 @@ To be provided
 ## Estimation for Deliverables
 Price is in NZD
 
-| Description                             | Unit Value |  Price |
-|-----------------------------------------|-----------:|-------:|
-| Development estimation                  |            | 35 100 |
-| Project Management 20 Hours             |            |  2 400 |
-| AWS maintenance with 24/7 support       |      3 500 |  3 200 |
-| Monthly maintenance retainer (20 hours) |        140 |  2 800 |
+| Description                               | Unit Value |  Price |
+|-------------------------------------------|-----------:|-------:|
+| Development estimation                    |            | 35 100 |
+| Project Management 20 Hours               |            |  2 400 |
+| AWS maintenance with 24/7 support Monthly |      3 500 |  3 200 |
+| Monthly maintenance retainer (20 hours)   |        140 |  2 800 |
 
 

@@ -67,8 +67,9 @@ Leads is built with followings software packages
 
 > ### Testing
 > 
-> Specific testing is not setup, <br>
-> Laravel basic tests already available
+> Specific testing is not available at this staging, <br>
+> Laravel basic tests for fortify is already available <br>
+> Need to create below tests
 > 
 > > Unit testing (using PHP Unit)<br>
 > > Integration testing<br>
@@ -85,7 +86,7 @@ Leads is built with followings software packages
 
 > ### Documentation
 >
-> For technical documentation Leads use PHP documentor
+> For technical documentation, Leads use PHP documentor
 > Please follow php standards, and run PHP documentor for API end point documentation
 >
 > [PHP Documentor](https://www.phpdoc.org/)
